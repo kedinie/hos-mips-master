@@ -92,6 +92,7 @@ static void interrupt_handler(struct trapframe *tf)
 {
 	extern clock_int_handler(void *);
 	extern serial_int_handler(void *);
+	extern bluetooth_int_handler(void *);
 //        extern keyboard_int_handler();
 	int i;
 	for (i = 0; i < 8; i++) {
@@ -118,6 +119,7 @@ static void interrupt_handler(struct trapframe *tf)
 //                                keyboard_int_handler();
 //                                pic_enable(KEYBOARD_IRQ);
 //                                break;
+		
 			default:
 				print_trapframe(tf);
 				panic("Unknown interrupt!");

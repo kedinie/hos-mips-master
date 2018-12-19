@@ -15,6 +15,7 @@
 
 static const struct inode_ops sfs_node_dirops;
 static const struct inode_ops sfs_node_fileops;
+static const struct inode_ops sfs_node_devops; /*new*/
 
 static inline int trylock_sin(struct sfs_inode *sin)
 {
@@ -40,6 +41,8 @@ static const struct inode_ops *sfs_get_ops(uint16_t type)
 		return &sfs_node_dirops;
 	case SFS_TYPE_FILE:
 		return &sfs_node_fileops;
+	case SFS_TYPE_DEVICE:      /*new*/
+		return &sfs_node_devops;
 	}
 	panic("invalid file type %d.\n", type);
 }
@@ -1515,4 +1518,54 @@ static const struct inode_ops sfs_node_fileops = {
 	.vop_unlink = NULL_VOP_NOTDIR,
 	.vop_lookup = NULL_VOP_NOTDIR,
 	.vop_lookup_parent = NULL_VOP_NOTDIR,
+};
+// new
+static int sfs_opendev(struct inode *node, uint32_t open_flags)
+{
+	if (open_flags & (O_CREAT | O_TRUNC | O_EXCL | O_APPEND)) {
+		return -E_INVAL;
+	}
+	struct device *dev = vop_info(node, device);
+	return dop_open(dev, open_flags);
+}
+
+static int sfs_closedev(struct inode *node)
+{
+	struct device *dev = vop_info(node, device);
+	return dop_close(dev);
+}
+
+static int sfs_devioctl(struct inode *node, int op, void *data)
+{
+	struct device *dev = vop_info(node, device);
+	return dop_ioctl(dev, op, data);
+}
+
+// static int sfs_mknod_nolock()
+// {
+
+// }
+
+// static int sfs_mknod()
+// {
+
+// }
+// new
+static const struct inode_ops sfs_node_devops = {
+	.vop_magic = VOP_MAGIC,
+	.vop_open = sfs_opendev,
+	.vop_close = sfs_closedev,
+	.vop_mkdir = NULL_VOP_NOTDIR,
+	.vop_link = NULL_VOP_NOTDIR,
+	.vop_rename = NULL_VOP_NOTDIR,
+	.vop_readlink = NULL_VOP_NOTDIR,
+	.vop_symlink = NULL_VOP_NOTDIR,
+	.vop_namefile = NULL_VOP_NOTDIR,
+	.vop_getdirentry = NULL_VOP_NOTDIR,
+	.vop_ioctl = sfs_devioctl,
+	.vop_create = NULL_VOP_NOTDIR,
+	.vop_unlink = NULL_VOP_NOTDIR,
+	.vop_lookup = NULL_VOP_NOTDIR,
+	.vop_lookup_parent = NULL_VOP_NOTDIR,
+	// .vop_mknod = sfs_mknod,
 };

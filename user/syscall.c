@@ -40,6 +40,11 @@ uintptr_t syscall(int num, ...)
 int sys_hello(void){
 	return syscall(SYS_hello);
 }
+
+int sys_bluetooth(void)
+{
+	return syscall(SYS_bluetooth);
+}
 //new
 
 int sys_exit(int error_code)

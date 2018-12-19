@@ -11,6 +11,6 @@
 
 int main(){
     // printf("kernel: hello!\n");
-    printf("The return of hello is %d\n\r", hello());
+    printf("The return of bluetooth is %d\n\r", bluetooth());
     return 0;
 }

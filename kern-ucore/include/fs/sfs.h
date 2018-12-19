@@ -29,6 +29,9 @@
 #define SFS_TYPE_FILE                               1
 #define SFS_TYPE_DIR                                2
 #define SFS_TYPE_LINK                               3
+//new
+#define SFS_TYPE_DEVICE                             4
+//new
 
 /*
  * On-disk superblock
@@ -57,6 +60,7 @@ struct sfs_disk_inode {
 	uint32_t direct[SFS_NDIRECT];	/* direct blocks */
 	uint32_t indirect;	/* indirect blocks */
 	uint32_t db_indirect;	/* double indirect blocks */
+	uint16_t dev_index;    /*device number*/
 };
 
 /* file entry (on disk) */

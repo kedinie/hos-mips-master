@@ -5,6 +5,8 @@
 #include <monitor.h>
 #include <picirq.h>
 #include <trap.h>
+//new
+// #include<bluetooth.h>
 #include <clock.h>
 #include <intr.h>
 #include <pmm.h>
@@ -20,6 +22,7 @@ void __noreturn kern_init(void)
 	pic_init();		// init interrupt controller
 	cons_init();		// init the console
 	clock_init();		// init clock interrupt
+	bluetooth_init();
 
 	check_initrd();
 

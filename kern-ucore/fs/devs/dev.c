@@ -169,6 +169,7 @@ void dev_init(void)
 	init_device(stdin);
 	init_device(stdout);
 	init_device(disk0);
+	// init_device(bluetooth);   // new
 	/* for Nand flash */
 	init_device(disk1);
 }

@@ -20,6 +20,12 @@ sys_hello(uint32_t arg[]){
     // printf("kernel: hello world!\n");
     return 2333;
 }
+
+static uint32_t
+sys_bluetooth(uint32_t arg[]){
+    kprintf("bluetooth\n\r");
+    return 0;
+}
 //new
 
 
@@ -310,7 +316,8 @@ static uint32_t (*syscalls[])(uint32_t arg[]) = {
     [SYS_dup]               sys_dup,
     [SYS_pipe]              sys_pipe,
     [SYS_mkfifo]            sys_mkfifo,
-    [SYS_hello]             sys_hello,
+    [SYS_hello]             sys_hello, // new
+    [SYS_bluetooth]         sys_bluetooth, // new
 };
  
 #define NUM_SYSCALLS        ((sizeof(syscalls)) / (sizeof(syscalls[0])))

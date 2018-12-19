@@ -1,6 +1,25 @@
 #ifndef __LIBS_THUMIPS_H__
 #define __LIBS_THUMIPS_H__
 
+//new
+#define BT_UART_BASE 0XB0500000
+#define rbr 0*4  // In:receive buffer
+#define ier 1*4  // Out: Interrupt Enable Register
+#define fcr 2*4  // Out: FIFO Control Register
+#define lcr 3*4 // Out: Line Control Register
+#define mcr 4*4 // Out: Modem Control Register
+#define lsr 5*4 // In: Line Status Register
+#define msr 6*4 // Modem Status Register
+#define scr 7*4 
+
+#define thr rbr // Out:Transmitter Holding Register
+#define iir fcr // In: Interrupt ID Register
+#define dll rbr // Out: Divisor Latch (Least Significant Byte) Register
+#define dlm ier 
+
+#define BT_IRQ   0
+//new
+
 #include <defs.h>
 
 #define do_div(n, base) ({                                          \

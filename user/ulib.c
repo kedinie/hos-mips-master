@@ -11,6 +11,10 @@ static lock_t fork_lock = INIT_LOCK;
 int hello(void){
 	sys_hello();
 }
+
+int bluetooth(void){
+	sys_bluetooth();
+}
 //new
 
 void lock_fork(void)
