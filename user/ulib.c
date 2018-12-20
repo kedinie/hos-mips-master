@@ -9,11 +9,11 @@ static lock_t fork_lock = INIT_LOCK;
 
 //new
 int hello(void){
-	sys_hello();
+	return sys_hello();
 }
 
-int bluetooth(void){
-	sys_bluetooth();
+int read_bt(void){
+	return sys_read_bt();
 }
 //new
 

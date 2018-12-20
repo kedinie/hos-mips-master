@@ -41,9 +41,9 @@ int sys_hello(void){
 	return syscall(SYS_hello);
 }
 
-int sys_bluetooth(void)
+int sys_read_bt(void)
 {
-	return syscall(SYS_bluetooth);
+	return syscall(SYS_read_bt);
 }
 //new
 

@@ -11,6 +11,8 @@
 #include <console.h>
 #include <error.h>
 
+#include <bluetooth.h> // new
+
 #define current (pls_read(current))
 extern volatile int ticks;
 
@@ -22,9 +24,16 @@ sys_hello(uint32_t arg[]){
 }
 
 static uint32_t
-sys_bluetooth(uint32_t arg[]){
-    kprintf("bluetooth\n\r");
-    return 0;
+sys_read_bt(uint32_t arg[]){
+    if(head == NULL) {
+        // kprintf("head is over!\n\r");
+        return 0;
+    }
+    int res = head->data;
+    struct bt_data * p = head;
+    head = head->next;
+    kfree(p);
+    return res;
 }
 //new
 
@@ -317,7 +326,7 @@ static uint32_t (*syscalls[])(uint32_t arg[]) = {
     [SYS_pipe]              sys_pipe,
     [SYS_mkfifo]            sys_mkfifo,
     [SYS_hello]             sys_hello, // new
-    [SYS_bluetooth]         sys_bluetooth, // new
+    [SYS_read_bt]           sys_read_bt,  // new
 };
  
 #define NUM_SYSCALLS        ((sizeof(syscalls)) / (sizeof(syscalls[0])))

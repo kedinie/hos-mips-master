@@ -30,7 +30,7 @@
 #define SFS_TYPE_DIR                                2
 #define SFS_TYPE_LINK                               3
 //new
-#define SFS_TYPE_DEVICE                             4
+// #define SFS_TYPE_DEVICE                             4
 //new
 
 /*

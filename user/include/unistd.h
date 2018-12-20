@@ -52,7 +52,7 @@
 #define SYS_mount           153
 #define SYS_umount			154
 #define SYS_hello           155  // new
-#define SYS_bluetooth       156  // new
+#define SYS_read_bt         156  // new
 
 /* SYS_fork flags */
 #define CLONE_VM             0x00000100
