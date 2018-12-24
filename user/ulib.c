@@ -12,9 +12,9 @@ int hello(void){
 	return sys_hello();
 }
 
-int read_bt(bt_data){
+int read_bt(){
 	// fprintf(1, "ulib: %x\n\r", bt_data);
-	return sys_read_bt(bt_data);
+	return sys_read_bt();
 }
 //new
 

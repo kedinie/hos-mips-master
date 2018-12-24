@@ -33,10 +33,15 @@ sys_read_bt(uint32_t arg[]){
     // struct bt_data * p = head;
     // head = head->next;
     // kfree(p);
-    p_bt = (uint32_t*)(arg[0]);
-    kprintf("inside address is %x %x %x\n\r", p_bt, arg[1], arg[2]);
+    // p_bt = (uint32_t*)(arg[0]);
+    // kprintf("inside address is %x %x %x\n\r", p_bt, arg[1], arg[2]);
     // *p_bt = 2333;
-    return 0;
+    uint32_t front = bt_data[0], back = bt_data[1],res = 0;
+    if(front != back){
+        res = bt_data[front + 2];
+        bt_data[0] = (front + 1) % bt_size;
+    }
+    return res;
 }
 //new
 

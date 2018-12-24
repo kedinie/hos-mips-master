@@ -5,10 +5,12 @@
 
 #define command_size 30
 #define bt_size 256
+#define bt_max_size 258
 
+uint32_t bt_data[bt_max_size];
 char bt_command[command_size];
 int pos;
-uint32_t *p_bt;
+// uint32_t *p_bt;
 // struct bt_data{
 //     uint32_t data;
 //     struct bt_data* next;

@@ -41,10 +41,9 @@ int sys_hello(void){
 	return syscall(SYS_hello);
 }
 
-int sys_read_bt(uint32_t *bt_data)
+int sys_read_bt(void)
 {
-	fprintf(1, "user/syscall: %x\n\r", bt_data);
-	return syscall(SYS_read_bt, bt_data);
+	return syscall(SYS_read_bt);
 }
 //new
 

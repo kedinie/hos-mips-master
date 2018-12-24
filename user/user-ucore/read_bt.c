@@ -18,14 +18,28 @@ void delay(void)
 }
 
 int main(){
-    uint32_t  bt_data[bt_size];
+    while(1){
+        int res = read_bt();
+        if(res != 0){
+            int x = 0;
+            int y = 0;
+            x = res >> 16;
+            y = res << 16;
+            y = y >> 16;
+            printf("-------------(x, y) (%d, %d)\n\r", x, y);
+        }
+        else printf("there is no data output!\n\r");
+        sleep(30);
+    }
+    return 0;
+   /*  uint32_t  bt_data[bt_size];
     bt_data[0] = 0;
-    bt_data[1] = 0;
+    bt_data[1] = 0; */
     // bt_data[2] = 4555;
     // printf("outside address is %x\n\r", bt_data);
-    read_bt(bt_data);
+    // read_bt();
     // printf("after read_bt bt_data[0] is %d\n\r", bt_data[0]);
-    uint32_t i = 0;
+   /*  uint32_t i = 0;
     while(i < 200){
         int front = bt_data[0];
         int back = bt_data[1];
@@ -45,9 +59,8 @@ int main(){
     i = 0;
     while(i < bt_size){
         printf("%u\n\r", bt_data[i++]);
-    }
+    } */
     // printf("read is over\n\r");
-    read_bt(NULL);
+    // read_bt();
     // printf("read_bt is wrong?\n\r");
-    return 0;
 }
