@@ -26,7 +26,7 @@ int sys_send_event(int pid, int event, unsigned int timeout);
 int sys_recv_event(int *pid_store, int *event_store, unsigned int timeout);
 
 int sys_hello(void); //new
-int sys_read_bt(void);  //new
+int sys_read_bt(uint32_t *);  //new
 //#define sys_event_send(x,y,z) sys_send_event(x,y,x)
 //#define sys_event_recv(x,y,z) sys_recv_event(x,y,x)
 

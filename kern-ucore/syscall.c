@@ -25,15 +25,18 @@ sys_hello(uint32_t arg[]){
 
 static uint32_t
 sys_read_bt(uint32_t arg[]){
-    if(head == NULL) {
-        // kprintf("head is over!\n\r");
-        return 0;
-    }
-    int res = head->data;
-    struct bt_data * p = head;
-    head = head->next;
-    kfree(p);
-    return res;
+    // if(head == NULL) {
+    //     // kprintf("head is over!\n\r");
+    //     return 0;
+    // }
+    // int res = head->data;
+    // struct bt_data * p = head;
+    // head = head->next;
+    // kfree(p);
+    p_bt = (uint32_t*)(arg[0]);
+    kprintf("inside address is %x %x %x\n\r", p_bt, arg[1], arg[2]);
+    // *p_bt = 2333;
+    return 0;
 }
 //new
 

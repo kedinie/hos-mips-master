@@ -173,14 +173,17 @@ void serial_int_handler(void *opaque)
  //Next, rememer to write EIC to tell EIC that it's interrupt has been handled!
  //otherwise the OS will fall into the dead loop of dealing with "previous" EIC interrupt.   
     int c = cons_getc();
+	// kprintf("interrupt\n\r");
 	if(c == 0)
 	{
+		// *((volatile unsigned int *)0xb0400000 + 0x1000) = 'A';
 		// kprintf("no keyboard \n\r");
 		bluetooth_int_handler(NULL);
 		xilinx_intc_init();
 		dev_stdin_write(c);
 	}
 	else {
+		// kprintf("keyboard\n\r");
 		extern void dev_stdin_write(char c);
 		//here we should tell EIC that the serial interrupt has been handled.
 		xilinx_intc_init();
