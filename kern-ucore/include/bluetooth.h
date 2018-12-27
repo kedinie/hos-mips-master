@@ -7,7 +7,7 @@
 #define bt_size 256
 #define bt_max_size 258
 
-uint32_t bt_data[bt_max_size];
+uint32_t bt_data[2];
 char bt_command[command_size];
 int pos;
 // uint32_t *p_bt;

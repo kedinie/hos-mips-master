@@ -9,17 +9,18 @@
 
 #define printf(...)                     fprintf(1, __VA_ARGS__)
 #define bt_size 258
-
+/* 
 void delay(void)
 {
     unsigned int j = 0;
     while(j < 1000000) j = j + 1;
     // for (j = 0; j < (); j++) ; // delay
 }
-
+ */
 int main(){
     while(1){
         int res = read_bt();
+        printf("%u\n\r", res);
         if(res != 0){
             int x = 0;
             int y = 0;

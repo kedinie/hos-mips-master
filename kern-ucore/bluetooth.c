@@ -86,14 +86,9 @@ int bluetooth_int_handler(void *data)
             // kprintf("recieve char %d\n\r", res);
 
             // store the data
-            int front = bt_data[0];
-            int back = bt_data[1];
-            bt_data[2 + back] = res;
-            back = (back + 1) % bt_size;
-            if(back == front){
-                bt_data[0] = (front + 1) % bt_size;
-            }
-            bt_data[1] = back;
+            
+            bt_data[0] = 1;
+            bt_data[1] = res;
             // if(head == NULL){
             //     head = (struct bt_data * )kmalloc(sizeof(struct bt_data));
             //     head->data = res;
@@ -111,17 +106,49 @@ int bluetooth_int_handler(void *data)
         else if(bt_command[1] == 'J') // rocker
         {
             // kprintf("rocker\n\r");
+            bt_command[pos] = '\0';
+            kprintf("command: %s\n\r", bt_command);
             int tpos = 0, yn = 0;
             int i = 0;
             int xSign = 0;
             int ySign = 0;
             while(i < pos){
+                if(bt_command[i] == ','){
+                    i++;
+                    if(bt_command[i] == '1'){
+                        if(yn == 0) {
+                            yn = 1;
+                            x = 1000;
+                        }
+                        else {
+                            yn = 0;
+                            y = 1000;
+                        }
+                    }
+                    if(bt_command[i + 1] == '1'){
+                        if(yn == 0) {
+                            yn = 1;
+                            x = 1000;
+                            xSign = 1;
+                        }
+                        else {
+                            yn = 0;
+                            y = 1000;
+                            ySign = 1;
+                        }
+                    }
+                }
                 if(bt_command[i] == '.'){
                     char temp[5];
                     i++;
-                    while(bt_command[i] == '0')i++;
+                    while(bt_command[i] == '0'){
+                        i++;
+                        temp[tpos++] = '0';
+                    }
                     while(i < pos && bt_command[i] != ','){
                         temp[tpos++] = bt_command[i++];
+                        if(bt_command[i] == ',' || i == pos)
+                            while(tpos < 3)temp[tpos++] = '0';
                     };
                     temp[tpos] = '\0';
                     if(yn == 0) {
@@ -137,9 +164,14 @@ int bluetooth_int_handler(void *data)
                 else if(bt_command[i] == '-'){
                     char temp[5];
                     i = i + 3;
-                    while(bt_command[i] == '0')i++;
+                    while(bt_command[i] == '0'){
+                        i++;
+                        temp[tpos++] = '0';
+                    }
                     while(i < pos && bt_command[i] != ','){
                         temp[tpos++] = bt_command[i++];
+                        if(bt_command[i] == ',' || i == pos)
+                            while(tpos < 3)temp[tpos++] = '0';
                     };
                     temp[tpos] = '\0';
                     if(yn == 0) {
@@ -157,22 +189,17 @@ int bluetooth_int_handler(void *data)
                 else i++;
             }
             uint32_t res = 0;
+            kprintf("y: %d, x: %d\n\r", y, x);
             y = y * 10;
-            x = (x == 0) ? 18 : (y / x);
-            if(x > 17){
-                res = ySign ? 204 : 201;   // 204 down, 201 up
+            x = (x == 0) ? 18 : (y / x); 
+            if(x > 10){
+                res = ySign ? 0X0000ff00 :0X000000ff;   // 0X0000ff00 down, 0X000000ff up
             }
-            else if(x < 6) res = xSign ? 202 : 203; // 202 left, 203 right
+            else res = xSign ? 0Xff000000 : 0X00ff0000; // 0Xff000000 left, 0X00ff0000 right
 
             // store the data
-            int front = bt_data[0];
-            int back = bt_data[1];
-            bt_data[2 + back] = res;
-            back = (back + 1) % bt_size;
-            if(back == front){
-                bt_data[0] = (front + 1) % bt_size;
-            }
-            bt_data[1] = back;
+            bt_data[0] = 1;
+            bt_data[1] = res;
         }
         else if(bt_command[1] == 'S' && bt_command[0] == 'I') // automatic tracking
         {
@@ -180,14 +207,9 @@ int bluetooth_int_handler(void *data)
             uint32_t res = 255;
             res = (res << 8) | (res << 24);
             // store the data
-            int front = bt_data[0];
-            int back = bt_data[1];
-            bt_data[2 + back] = res;
-            back = (back + 1) % bt_size;
-            if(back == front){
-                bt_data[0] = (front + 1) % bt_size;
-            }
-            bt_data[1] = back;
+            
+            bt_data[0] = 1;
+            bt_data[1] = res;
         }
         pos = 0;
     }

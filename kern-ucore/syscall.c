@@ -36,10 +36,12 @@ sys_read_bt(uint32_t arg[]){
     // p_bt = (uint32_t*)(arg[0]);
     // kprintf("inside address is %x %x %x\n\r", p_bt, arg[1], arg[2]);
     // *p_bt = 2333;
-    uint32_t front = bt_data[0], back = bt_data[1],res = 0;
-    if(front != back){
-        res = bt_data[front + 2];
-        bt_data[0] = (front + 1) % bt_size;
+    uint32_t res = 0;
+    // kprintf("bt_data[1] :%u\n\r", bt_data[1]);
+    if(bt_data[0]){
+        bt_data[0] = 0;
+        // kprintf("data out %u\n\r", bt_data[1]);
+        res = bt_data[1];
     }
     return res;
 }
