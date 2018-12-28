@@ -108,7 +108,52 @@ int bluetooth_int_handler(void *data)
             // kprintf("rocker\n\r");
             bt_command[pos] = '\0';
             kprintf("command: %s\n\r", bt_command);
+            
             int tpos = 0, yn = 0;
+            int i = 0;
+            while(i < pos){
+                if(bt_command[i] == ','){
+                    char temp[5];
+                    i++;
+                    if(bt_command[i] == '-'){
+                        i++;
+                        if(yn == 0)xSign = 1;
+                        else {ySign = 1;yn = 1;}
+                    }
+                    while(i < pos && bt_command[i] != ','){
+                        if(bt_command[i] == '.')i++;
+                        else temp[tpos++] = bt_command[i++];
+                    };
+                    while(tpos < 4)temp[tpos++] = 0;
+                    temp[tpos] = '\0';
+                    // kprintf("%s, ", temp);
+                    if(yn == 0) {
+                        yn = 1;
+                        x = atoi(temp);
+                    }
+                    else {
+                        yn = 0;
+                        y = atoi(temp);
+                    }
+                    tpos = 0;
+                }
+                else i++;
+            }
+            // kprintf("\n\r");
+            uint32_t res = 0;
+            kprintf("y: %d, x: %d\n\r", y, x);
+            y = y * 10;
+            x = (x == 0) ? 18 : (y / x); 
+            if(x > 10){
+                res = ySign ? 0X0000ff00 :0X000000ff;   // 0X0000ff00 down, 0X000000ff up
+            }
+            else res = xSign ? 0Xff000000 : 0X00ff0000; // 0Xff000000 left, 0X00ff0000 right
+
+            // store the data
+            bt_data[0] = 1;
+            bt_data[1] = res;
+
+/*            int tpos = 0, yn = 0;
             int i = 0;
             int xSign = 0;
             int ySign = 0;
@@ -199,7 +244,7 @@ int bluetooth_int_handler(void *data)
 
             // store the data
             bt_data[0] = 1;
-            bt_data[1] = res;
+            bt_data[1] = res;*/
         }
         else if(bt_command[1] == 'S' && bt_command[0] == 'I') // automatic tracking
         {
